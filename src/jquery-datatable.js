@@ -45,7 +45,7 @@
             var i,
                 j,
                 currentCellWidth,
-                headerHtml = "",
+                headerHtml = '',
                 minColumnWidths = [],
                 columnWidths = [],
                 tableWidth = 0;
@@ -59,7 +59,7 @@
             $('.headTable table thead tr').append(headerHtml);
 
             $.each(this.data, function(i, feature){
-                var bodyRowHtml = "";
+                var bodyRowHtml = '';
                 $.each(feature, function(k, v){
                     if((i%2) !== 0) {
                         bodyRowHtml += '<td class="cellDiv oddRow"><span>'+v+'</span></td>';
@@ -136,10 +136,10 @@
         return tableTemplate;
     }
 
-    function template(template, data) {
+    function bindTemplate(template, data) {
         $.each(data, function(key, val){
             var re = new RegExp('{{'+key+'}}', 'g');
-            template = template.replace(re, val)
+            template = template.replace(re, val);
         });
         return template;
     }

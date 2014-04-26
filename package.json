@@ -1,0 +1,25 @@
+{
+  "name": "dynamic-bootstrap-grid",
+  "title": "Dynamic Bootstrap Grid",
+  "description": "Dynamic data table using Bootstrap V3",
+  "version": "0.1.0",
+  "homepage": "https://github.com/eherman/dynamic-bootstrap-table",
+  "author": {
+    "name": "Eric Herman",
+    "url": "https://github.com/eherman"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.23"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "matchdep": "0.1.2",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-cssmin": "0.9.0"
+  }
+}

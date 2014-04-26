@@ -1,5 +1,7 @@
-# OSX spoecific files
-.DS_Store
+# System files
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
 
 # Logs
 logs
@@ -7,8 +9,9 @@ logs
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
-/tmp
-/dist
 
-# Dependency directory
+# Sass cache
+.sass-cache
+
+# Node / Grunt
 node_modules
