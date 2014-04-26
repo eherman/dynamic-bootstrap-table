@@ -1,0 +1,61 @@
+.datagridContainer {
+    width: 1000px;
+    height: 700px;
+}
+
+.tableContainer {
+    overflow-x: scroll;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #dddddd;
+}
+
+.outerTable {
+    border-top: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+}
+
+.headTable {
+    overflow-y: scroll;
+    border-bottom: 1px solid #dddddd;
+}
+
+.headTable table thead tr {
+    height: 38px;
+}
+
+.headTable th.cellDiv {
+    font-weight: bold;
+    height: 38px;
+    background-color: #FFFFFF;
+}
+
+.bodyTable {
+    overflow-y: scroll;
+}
+
+.bodyTable td.cellDiv {
+    border-bottom: 1px solid #dddddd;
+}
+
+.cellDiv {
+    padding: 8px;
+    border-right: 1px solid #dddddd;
+    display: inline-block;
+    text-align: left;
+    white-space: nowrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.evenRow {
+    background-color: #F5F5F5;
+}
+
+.oddRow {
+    background-color: #FFFFFF;
+}
