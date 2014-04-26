@@ -19,6 +19,7 @@ function(dataset) {
     var columns = dataset.getColumns();
 
     var myTable = $('.datagridContainer').Datatable({
+        "sortable": true,
 	    "data": data,
 	    "columns": columns
     });

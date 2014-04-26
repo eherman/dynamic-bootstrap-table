@@ -22,10 +22,20 @@
     height: 38px;
 }
 
-.headTable th.cellDiv {
+.headTable .cellDiv {
     font-weight: bold;
     height: 38px;
     background-color: #FFFFFF;
+}
+
+.sortableHeader:hover {
+    cursor: pointer;
+    background-color: #EEEEEE;
+}
+
+.headTable table span.ui-arrow {
+    float: right;
+    margin-left: 5px;
 }
 
 .bodyTable {

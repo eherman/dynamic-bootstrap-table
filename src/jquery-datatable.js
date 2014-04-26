@@ -14,7 +14,7 @@
      * "data": array of objects that contain data to be populated in the table body
      * "columns": array of Strings that specify the columns in the table header
      * 
-     * var myTable = $('div.datagridContainer').Datatable({
+     * var myTable = $('.datagridContainer').Datatable({
      *     "data": data,
      *     "columns": columns
      * });
@@ -37,7 +37,10 @@
     };
 
     Datatable.prototype = {
+        "datatable": this,
+        "sortable": false,
         init: function() {
+            this.masterData = this.data.slice();
             this.$el.append(generateDatatableTemplate());
             this.updateTable();
         },
@@ -48,15 +51,29 @@
                 headerHtml = '',
                 minColumnWidths = [],
                 columnWidths = [],
-                tableWidth = 0;
+                tableWidth = 0,
+                datatable = this;
 
             $('.headTable table thead tr').empty();
             $('.bodyTable table').empty();
 
             $.each(this.columns, function(k, v){
-                headerHtml += '<th class="cellDiv"><span>'+v+'</span></th>';
+                if(datatable.sortable && v === datatable.sortBy) {
+                    if(datatable.reverse) {
+                        //down arrow
+                        headerHtml += '<th class="cellDiv"><span>'+v+'</span><span class="ui-arrow">&#x25BC;</span></th>';
+                    } else {
+                        //up arrow
+                        headerHtml += '<th class="cellDiv"><span>'+v+'</span><span class="ui-arrow">&#x25B2;</span></th>';
+                    }
+                } else {
+                    headerHtml += '<th class="cellDiv"><span>'+v+'</span></th>';
+                }
             });
             $('.headTable table thead tr').append(headerHtml);
+            if(this.sortable) {
+                $('.headTable table thead th.cellDiv').addClass('sortableHeader');
+            }
 
             $.each(this.data, function(i, feature){
                 var bodyRowHtml = '';
@@ -72,13 +89,13 @@
 
             for(j=0; j<this.columns.length; j++) {
                 currentCellWidth = $('.headTable table').children().eq(0).children().eq(0).children().eq(j).outerWidth();
-                minColumnWidths[j] = currentCellWidth+10;
+                minColumnWidths[j] = currentCellWidth;
                 if(columnWidths[j]) {
                     if(currentCellWidth > columnWidths[j]) {
-                        columnWidths[j] = currentCellWidth+10;
+                        columnWidths[j] = currentCellWidth;
                     } 
                 } else {
-                    columnWidths[j] = currentCellWidth+10;
+                    columnWidths[j] = currentCellWidth;
                 }
             }
 
@@ -87,10 +104,10 @@
                     currentCellWidth = $('.bodyTable table').children().eq(0).children().eq(i).children().eq(j).outerWidth();
                     if(columnWidths[j]) {
                         if(currentCellWidth > columnWidths[j]) {
-                            columnWidths[j] = currentCellWidth+10;
+                            columnWidths[j] = currentCellWidth;
                         } 
                     } else {
-                        columnWidths[j] = currentCellWidth+10;
+                        columnWidths[j] = currentCellWidth;
                     }
                 }
             }
@@ -112,7 +129,33 @@
             $('.headTable').innerWidth(tableWidth+15);
             $('.bodyTable').innerWidth(tableWidth+15);
             $('.bodyTable').innerHeight($('.tableContainer').innerHeight()-40);
+
+            if(this.sortable) {
+                $('.headTable .cellDiv').on('click', function(evt){
+                    var i,
+                        newTableWidth;
+                    var colIndex = $(this).index();
+
+                    if(datatable.sortBy === datatable.columns[colIndex] && datatable.reverse === false) {
+                        datatable.reverse = true;
+                        datatable.sort(datatable.columns[colIndex], true);
+                        datatable.updateTable();
+                    } else {
+                        datatable.sortBy = datatable.columns[colIndex];
+                        datatable.reverse = false;
+                        datatable.sort(datatable.columns[colIndex], false);
+                        datatable.updateTable();
+                    }
+                });
+            }
         },
+        sort: function(field, reverse) {
+            if(reverse) {
+                this.data.sort(dynamicSort('-'+field));
+            } else {
+                this.data.sort(dynamicSort(field));
+            }
+        }
 
     };
 
@@ -134,6 +177,18 @@
                 '</div>'+
             '</div>';
         return tableTemplate;
+    }
+
+    function dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
     }
 
     function bindTemplate(template, data) {
