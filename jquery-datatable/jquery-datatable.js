@@ -3,7 +3,7 @@
  *
  * Version: 0.1.0
  *
- * Requires: jQuery ???
+ * Requires: jQuery v1.10.2 and Bootstrap v3.0.3
  */
 (function($) {
 
