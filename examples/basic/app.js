@@ -7,8 +7,11 @@ requirejs.config({
         dataset: './dataset'
     },
     shim:{
-        datatable:{
+        paginator:{
             deps: ['jquery','bootstrap']
+        },
+        datatable:{
+            deps: ['jquery','bootstrap', 'paginator']
         }
     }
 });
@@ -20,6 +23,9 @@ function(dataset) {
 
     var myTable = $('.datagridContainer').Datatable({
         "sortable": true,
+        "pagination": true,
+        "pageSizes": [10, 15, 20],
+        // "currentPageSize": 15,
 	    "data": data,
 	    "columns": columns
     });

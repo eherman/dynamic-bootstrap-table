@@ -3,7 +3,9 @@
  *
  * Version: 0.1.0
  *
- * Requires: jQuery v1.10.2 and Bootstrap v3.0.3
+ * Requires: jQuery v1.10.2
+ *           Bootstrap v3.0.3
+ *           Bootstrap-paginator
  */
 (function($) {
 
@@ -37,11 +39,50 @@
     };
 
     Datatable.prototype = {
-        "datatable": this,
         "sortable": false,
+        "pagination": false,
+        "paginatorSize": 5,
+        "pageSizes": [5, 10, 20],
+        "currentPage": 1,
+        "totalPages": 1,
         init: function() {
+            var datatable = this;
+
             this.masterData = this.data.slice();
-            this.$el.append(generateDatatableTemplate());
+            this.$el.append(this.generateDatatableTemplate());
+            if(!this.currentPageSize) {
+                this.currentPageSize = this.pageSizes[0];
+            }
+
+            if(this.pagination) {
+                var pageSizeOptionsHtml = '';
+                for(var i=0; i<datatable.pageSizes.length; i++) {
+                    pageSizeOptionsHtml += '<option value="'+datatable.pageSizes[i]+'">'+datatable.pageSizes[i]+'</option>';
+                }
+                $('#page-size-select').append(pageSizeOptionsHtml);
+                $('#page-size-select').val(datatable.currentPageSize);
+                $('#page-size-select').change(function() {
+                    datatable.currentPageSize = parseInt($(this).val());
+                    datatable.updateResultsCount();
+                    datatable.updateTable();
+                    datatable.updatePaginator();
+                    datatable.updatePageSelect();
+                });
+
+                $('#show-page-select').change(function() {
+                    datatable.currentPage = parseInt($(this).val());
+                    datatable.updateResultsCount();
+                    datatable.updateTable();
+                    datatable.updatePaginator();
+                });
+
+                this.updateResultsCount();
+                this.updatePaginator();
+                this.updatePageSelect();
+            } else {
+                this.currentPageSize = this.data.length;
+            }
+
             this.updateTable();
         },
         updateTable: function() {
@@ -75,7 +116,7 @@
                 $('.headTable table thead th.cellDiv').addClass('sortableHeader');
             }
 
-            $.each(this.data, function(i, feature){
+            $.each(this.data.slice(this.startFeature, this.endFeature), function(i, feature){
                 var bodyRowHtml = '';
                 $.each(feature, function(k, v){
                     if((i%2) !== 0) {
@@ -99,7 +140,7 @@
                 }
             }
 
-            for(i=0; i<this.data.length; i++) {
+            for(i=0; i<this.currentPageSize; i++) {
                 for(j=0; j<this.columns.length; j++) {
                     currentCellWidth = $('.bodyTable table').children().eq(0).children().eq(i).children().eq(j).outerWidth();
                     if(columnWidths[j]) {
@@ -115,7 +156,7 @@
             for(j=0; j<this.columns.length; j++) {
                 $('.headTable table').children().eq(0).children().eq(0).children().eq(j).css('width', columnWidths[j]);
             }
-            for(i=0; i<this.data.length; i++) {
+            for(i=0; i<this.currentPageSize; i++) {
                 for(j=0; j<this.columns.length; j++) {
                     $('.bodyTable table').children().eq(0).children().eq(i).children().eq(j).css('width', columnWidths[j]);
                 }
@@ -139,15 +180,131 @@
                     if(datatable.sortBy === datatable.columns[colIndex] && datatable.reverse === false) {
                         datatable.reverse = true;
                         datatable.sort(datatable.columns[colIndex], true);
-                        datatable.updateTable();
                     } else {
                         datatable.sortBy = datatable.columns[colIndex];
                         datatable.reverse = false;
                         datatable.sort(datatable.columns[colIndex], false);
-                        datatable.updateTable();
                     }
+                    datatable.currentPage = 1;
+                    datatable.updateResultsCount();
+                    datatable.updatePaginator();
+                    datatable.updatePageSelect();
+                    datatable.updateTable();
                 });
             }
+        },
+        updatePaginator: function() {
+            var datatable = this;
+
+            //PAGINATION
+            var options = {
+                bootstrapMajorVersion: 3,
+                currentPage: datatable.currentPage,
+                numberOfPages: datatable.paginatorSize,
+                totalPages: datatable.totalPages,
+                onPageClicked: function(e,originalEvent,type,page){
+                    datatable.currentPage = page;
+                    datatable.updateResultsCount();
+                    datatable.updateTable();
+                    datatable.updatePageSelect();
+                }
+            };
+            $('#paginator').bootstrapPaginator(options);
+        },
+        updatePageSelect: function() {
+            var datatable = this;
+
+            var pageSelectorOptionsHtml = '';
+            $('#show-page-select').empty();
+            for(var i=1; i<=datatable.totalPages; i++) {
+                pageSelectorOptionsHtml += '<option value="'+i+'">'+i+'</option>';
+            }
+            $('#show-page-select').append(pageSelectorOptionsHtml);
+            $('#show-page-select').val(datatable.currentPage);
+        },
+        updatePageSizeSelect: function() {
+            $('#page-size-select').val(datatable.currentPageSize);
+        },
+        updateResultsCount: function() {
+            var datatable = this;
+
+            if(datatable.data.length % datatable.currentPageSize === 0) {
+                datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize); 
+            } else {
+                datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize) + 1;
+            }
+
+            if(datatable.currentPage > datatable.totalPages) {
+                datatable.currentPage = datatable.totalPages;
+            }
+
+            datatable.startFeature = (datatable.currentPage-1)*datatable.currentPageSize;
+            if(datatable.currentPage === datatable.totalPages) {
+                datatable.endFeature = datatable.data.length;
+            } else {
+                datatable.endFeature = parseInt(datatable.startFeature) + datatable.currentPageSize;
+            }
+
+            $('#resultsCountDiv').empty();
+            if(datatable.data.length === 0) {
+                $('#resultsCountDiv').append('No items');
+            } else {
+                // $('#resultsCountDiv').append('fake - fake of '+datatable.data.length+' items');
+                $('#resultsCountDiv').append((
+                    datatable.startFeature+1)+
+                    ' - '+
+                    datatable.endFeature+
+                    ' of '+
+                    datatable.data.length+
+                    ' items'
+                );
+            }
+        },
+        generateDatatableTemplate: function() {
+            var tableTemplate = 
+                '<div class="tableContainer">'+
+                    '<div class="outerTable">'+
+                        '<div class="headTable">'+
+                            '<table>'+
+                                '<thead>'+
+                                    '<tr class="rowDiv"></tr>'+
+                                '</thead>'+
+                            '</table>'+
+                        '</div>'+
+                        '<div class="bodyTable">'+
+                            '<table>'+
+                            '</table>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+            var tableFooterTemplate = 
+                '<div id="tableFooter">'+
+                    '<div id="leftFooterDiv">'+
+                        '<div id="pageSelector">'+
+                            'Go to page:'+
+                            '<select id="show-page-select" class="form-control">'+
+                            '</select>'+
+                        '</div>'+
+                        '<div id="resultsCountDiv"></div>'+
+                    '</div>'+
+                    '<div id="centerFooterDiv">'+
+                        '<ul id="paginator">'+
+                        '</ul>'+
+                    '</div>'+
+                    '<div id="rightFooterDiv">'+
+                        '<div id="pageSizeSelector">'+
+                            'Page size:'+
+                            '<select id="page-size-select" class="form-control">'+
+                            '</select>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+
+            if(this.pagination) {
+                tableTemplate += tableFooterTemplate;
+            }
+
+            return tableTemplate;
         },
         sort: function(field, reverse) {
             if(reverse) {
@@ -156,28 +313,7 @@
                 this.data.sort(dynamicSort(field));
             }
         }
-
     };
-
-    function generateDatatableTemplate() {
-        var tableTemplate = 
-            '<div class="tableContainer">'+
-                '<div class="outerTable">'+
-                    '<div class="headTable">'+
-                        '<table>'+
-                            '<thead>'+
-                                '<tr class="rowDiv"></tr>'+
-                            '</thead>'+
-                        '</table>'+
-                    '</div>'+
-                    '<div class="bodyTable">'+
-                        '<table>'+
-                        '</table>'+
-                    '</div>'+
-                '</div>'+
-            '</div>';
-        return tableTemplate;
-    }
 
     function dynamicSort(property) {
         var sortOrder = 1;
