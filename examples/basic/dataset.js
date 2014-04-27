@@ -14,8 +14,6 @@ define([
 						"City": "Fake City",
 						"Phone": "555-867-5309",
 						"Description": "Sexy and I know it",
-						"Jibber": "jibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibber",
-						"Jabber": "jabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabber"
 					}
 				);
 			}
@@ -28,8 +26,6 @@ define([
 					"City": "Gotham City",
 					"Phone": "555-555-5555",
 					"Description": "I'm Batman",
-					"Jibber": "ajibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibber",
-					"Jabber": "ajabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabber"
 				}
 			);
 			data.push(
@@ -40,9 +36,7 @@ define([
 					"Lon": "99",
 					"City": "Metropolis",
 					"Phone": "555-555-SUPE",
-					"Description": "I'm Superman",
-					"Jibber": "bjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibber",
-					"Jabber": "bjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabber"
+					"Description": "I'm Superman"
 				}
 			);
 			data.push(
@@ -53,15 +47,13 @@ define([
 					"Lon": "66",
 					"City": "Metropolis",
 					"Phone": "555-555-SUPE",
-					"Description": "I'm Superman",
-					"Jibber": "bjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibberjibber",
-					"Jabber": "bjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabberjabber"
+					"Description": "I'm Superman"
 				}
 			);
 			return data;
 		},
 		getColumns: function() {
-			return ["ID", "Name", "Lat", "Lon", "City", "Phone", "Description", "Jibber", "Jabber"];
+			return ["ID", "Name", "Lat", "Lon", "City", "Phone", "Description"];
 		}
 	};
 

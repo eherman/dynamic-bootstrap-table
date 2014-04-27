@@ -166,10 +166,19 @@
                 tableWidth += columnWidths[i];
             }
 
+            $('.bodyTable').innerHeight($('.tableContainer').innerHeight()-40);
             $('.outerTable').innerWidth(tableWidth+15);
             $('.headTable').innerWidth(tableWidth+15);
             $('.bodyTable').innerWidth(tableWidth+15);
-            $('.bodyTable').innerHeight($('.tableContainer').innerHeight()-40);
+
+            if($('.bodyTable').width() <= $('.tableContainer').width()) {
+                $('.outerTable').css('width', '100%');
+                $('.headTable').css('width', '100%');
+                $('.bodyTable').css('width', '100%');
+                $('.headTable table').css('width', '100%');
+                $('.bodyTable table').css('width', '100%');
+                $('.cellDiv').css('display', 'table-cell');
+            }
 
             if(this.sortable) {
                 $('.headTable .cellDiv').on('click', function(evt){
