@@ -1,3 +1,8 @@
+var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+var mountFolder = function (connect, dir) {
+  return connect.static(require('path').resolve(dir));
+};
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -106,37 +111,49 @@ module.exports = function(grunt) {
      */
     watch: {
 
-      // JShint Gruntfile
-      gruntfile: {
-        files: 'Gruntfile.js',
-        tasks: ['jshint:gruntfile']
-      },
-
-      // JShint, concat + uglify JS on change
-      js: {
-        files: '<%= jshint.files %>',
-        tasks: ['jshint', 'concat', 'uglify']
-      },
-
       // Live reload files
       livereload: {
         options: { livereload: true },
         files: [
+          'index.html',         // main .html landing page
           'src/**/*.css',       // all .css files in src
           'src/**/*.js',        // all .js files in src
-          'test/**/*.{html}',   // all .html in test
-          'test/**/*.js' ,      // all .js in test
-          'test/**/*.css'       // all .css in test 
+          'examples/**/*.html', // all .html in test
+          'examples/**/*.js' ,  // all .js in test
+          'examples/**/*.css'   // all .css in test 
 
         ]
       }
+    },
+
+
+    open: {
+      server: {
+        url: 'http://localhost:<%= connect.livereload.options.port %>/examples'
+      }
+    },
+
+
+    connect: {
+      livereload: {
+        options: {
+          port: 9032,
+          middleware: function (connect) {
+            return [
+              lrSnippet,
+              mountFolder(connect, '')
+            ];
+          }
+        }
+      }
     }
+
   });
 
 
   /**
    * Build Task
-   * run `grunt`
+   * run `grunt` or `grunt build`
    */
   grunt.registerTask('build', [
     'jshint',           // JShint
@@ -144,6 +161,17 @@ module.exports = function(grunt) {
     'uglify',           // Minifiy concatenated JS file
     'concat:css',       // Concatenate CSS files
     'cssmin'        // Concatenate CSS files
+  ]);
+
+  /**
+   * Server Task, to be able to view working examples
+   * run `grunt server`
+   */
+  grunt.registerTask('server', [
+    // 'livereload-start',
+    'connect:livereload',
+    'open',
+    'watch'
   ]);
 
   /**
