@@ -1,12 +1,9 @@
-/* Copyright (c) 2014
- * Licensed under the MIT License.
- *
- * Version: 0.1.0
- *
- * Requires: jQuery v1.10.2
- *           Bootstrap v3.0.3
- *           Bootstrap-paginator
- */
+/**
+Dynamic Bootstrap Table - 0.1.0
+https://github.com/eherman/dynamic-bootstrap-table
+Copyright (c) 2014 Eric Herman
+License: MIT
+*/
 (function($) {
 
     /*
