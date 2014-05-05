@@ -24,9 +24,14 @@ function(dataset) {
     var myTable = $('.datagridContainer').Datatable({
         "sortable": true,
         "pagination": true,
-        "pageSizes": [10, 15, 20],
-        // "currentPageSize": 15,
+        // "pageSizes": [5, 10, 15, 20],
+        // "currentPageSize": 5,
 	    "data": data,
-	    "columns": columns
+	    "columns": columns,
+        "searchable": true,
+        "closeable": true,
+        "afterClose": function() {
+            console.log('Table has closed.');
+        }
     });
 });

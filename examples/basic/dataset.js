@@ -13,7 +13,7 @@ define([
 						"Lon": "90",
 						"City": "Fake City",
 						"Phone": "555-867-5309",
-						"Description": "Sexy and I know it",
+						"Description": "Sexy and I know itSexy and I know itSexy and I know itSexy and I know itSexy and I know itSexy and I know itSexy and I know itSexy and I know it",
 					}
 				);
 			}
@@ -31,8 +31,8 @@ define([
 			data.push(
 				{
 					"ID": 101,
-					"Name": "Clak Kent",
 					"Lat": "99",
+					// "Name": "Clak Kent",
 					"Lon": "99",
 					"City": "Metropolis",
 					"Phone": "555-555-SUPE",
