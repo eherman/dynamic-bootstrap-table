@@ -123,6 +123,15 @@
 
             this.updateTable();
         },
+        removeAllData: function() {
+            this.data = [];
+            this.masterData = [];
+            this.currentPage = 1;
+            this.updateResultsCount();
+            this.updatePaginator();
+            this.updatePageSelect();
+            this.updateTable();
+        },
         updateColumns: function(newCols) {
             this.columns = newCols;
             this.currentPage = 1;
