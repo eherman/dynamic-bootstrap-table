@@ -67,7 +67,7 @@
                 $('.pageSizeSelector select').append(pageSizeOptionsHtml);
                 $('.pageSizeSelector select').val(datatable.currentPageSize);
                 $('.pageSizeSelector select').change(function() {
-                    datatable.currentPageSize = parseInt($(this).val());
+                    datatable.currentPageSize = parseInt($(this).val(), 10);
                     datatable.updateResultsCount();
                     datatable.updateTable();
                     datatable.updatePaginator();
@@ -75,7 +75,7 @@
                 });
 
                 $('.pageSelector select').change(function() {
-                    datatable.currentPage = parseInt($(this).val());
+                    datatable.currentPage = parseInt($(this).val(), 10);
                     datatable.updateResultsCount();
                     datatable.updateTable();
                     datatable.updatePaginator();
@@ -329,9 +329,9 @@
                     datatable.totalPages = 1;
                     datatable.currentPage = 1;
                 } else if(datatable.data.length % datatable.currentPageSize === 0) {
-                    datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize); 
+                    datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize, 10); 
                 } else {
-                    datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize) + 1;
+                    datatable.totalPages = parseInt(datatable.data.length / datatable.currentPageSize, 10) + 1;
                 }
 
                 if(datatable.currentPage > datatable.totalPages) {
@@ -342,7 +342,7 @@
                 if(datatable.currentPage === datatable.totalPages) {
                     datatable.endFeature = datatable.data.length;
                 } else {
-                    datatable.endFeature = parseInt(datatable.startFeature) + datatable.currentPageSize;
+                    datatable.endFeature = parseInt(datatable.startFeature, 10) + datatable.currentPageSize;
                 }
 
                 $('.resultsCountDiv').empty();
