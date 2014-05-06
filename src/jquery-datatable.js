@@ -121,7 +121,7 @@
                 $('.datagridCloseBtn').on('click', function() {
                     datatable.$el.hide();
                     datatable.afterClose();
-                })
+                });
             }
 
             this.updateTable();
@@ -318,7 +318,7 @@
         },
         updatePageSizeSelect: function() {
             if(this.pagination) {
-                $('.pageSizeSelector select').val(datatable.currentPageSize);
+                $('.pageSizeSelector select').val(this.currentPageSize);
             }
         },
         updateResultsCount: function() {
@@ -456,7 +456,7 @@
                                     return true;
                                 }
                             } else if(typeof obj[val] === 'number') { 
-                                if(obj[val] == query) {
+                                if(obj[val] === query) {
                                     return true;
                                 }
                             }
@@ -477,7 +477,7 @@
         return function (a,b) {
             var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
             return result * sortOrder;
-        }
+        };
     }
 
     function bindTemplate(template, data) {
