@@ -41,6 +41,7 @@
     Datatable.prototype = {
         "sortable": true,
         "searchable": true,
+        "searchBy": '',
         "pagination": true,
         "paginatorSize": 5,
         "pageSizes": [5, 10, 20],
@@ -91,6 +92,7 @@
                 $('.searchField input').bind('keydown', function(e) {
                     if (e.keyCode === 13) {
                         datatable.filter($('.searchField input').val());
+                        datatable.searchBy = $('.searchField input').val();
                         if(datatable.sortBy && datatable.reverse) {
                             datatable.sort(datatable.sortBy, datatable.reverse);
                         }
@@ -103,6 +105,7 @@
                 });
                 $('.searchField button').on('click', function(evt) {
                     datatable.filter($('.searchField input').val());
+                    datatable.searchBy = $('.searchField input').val();
                     if(datatable.sortBy && datatable.reverse) {
                         datatable.sort(datatable.sortBy, datatable.reverse);
                     }
@@ -121,6 +124,18 @@
                 })
             }
 
+            this.updateTable();
+        },
+        addData: function(newData) {
+            $.merge(this.data, newData);
+            $.merge(this.masterData, newData);
+            this.filter(this.searchBy);
+            if(this.sortBy) {
+                this.sort(this.sortBy, this.reverse);
+            }
+            this.updateResultsCount();
+            this.updatePaginator();
+            this.updatePageSelect();
             this.updateTable();
         },
         removeAllData: function() {

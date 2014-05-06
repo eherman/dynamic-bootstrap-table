@@ -34,4 +34,9 @@ function(dataset) {
             console.log('Table has closed.');
         }
     });
+
+    $('body').append('<button id="addDataBtn">Add Data</button>');
+    $('#addDataBtn').on('click', function() {
+        myTable.addData(dataset.getNewData());
+    });
 });

@@ -54,6 +54,19 @@ define([
 		},
 		getColumns: function() {
 			return ["ID", "Name", "Lat", "Lon", "City", "Phone", "Description"];
+		},
+		getNewData: function() {
+			return [
+				{
+					"ID": 999,
+					"Name": "Joker",
+					"Lat": "13",
+					"Lon": "13",
+					"City": "Arkham Asylum",
+					"Phone": "BAT-MAN-SUXS",
+					"Description": "Hahahaha!"
+				}
+			];
 		}
 	};
 
