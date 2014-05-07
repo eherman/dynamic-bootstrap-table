@@ -7,7 +7,7 @@ define([
 			for(var i=0; i<100; i++) {
 				data.push(
 					{
-						"ID": i,
+						"ID": i.toString(),
 						"Name": "Fake Name",
 						"Lat": "90",
 						"Lon": "90",
@@ -19,7 +19,7 @@ define([
 			}
 			data.push(
 				{
-					"ID": 100,
+					"ID": "100",
 					"Name": "Bruce Wayne",
 					"Lat": "99",
 					"Lon": "99",
@@ -30,7 +30,7 @@ define([
 			);
 			data.push(
 				{
-					"ID": 101,
+					"ID": "101",
 					"Lat": "99",
 					// "Name": "Clak Kent",
 					"Lon": "99",
@@ -41,7 +41,7 @@ define([
 			);
 			data.push(
 				{
-					"ID": 102,
+					"ID": "102",
 					"Name": "Clak Kent",
 					"Lat": "66",
 					"Lon": "66",
@@ -58,7 +58,7 @@ define([
 		getNewData: function() {
 			return [
 				{
-					"ID": 999,
+					"ID": "999",
 					"Name": "Joker",
 					"Lat": "13",
 					"Lon": "13",

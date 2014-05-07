@@ -64,6 +64,11 @@
     background-color: #FFFFFF;
 }
 
+.clickableRow:hover {
+    cursor: default;
+    background-color: #9AC0DE;
+}
+
 /* HEADER STYLES */
 .tableHeader {
     background-color: #F5F5F5;

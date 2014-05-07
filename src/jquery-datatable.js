@@ -39,6 +39,7 @@
     };
 
     Datatable.prototype = {
+        "recordIdCounter": 1,
         "sortable": true,
         "searchable": true,
         "searchBy": '',
@@ -49,11 +50,14 @@
         "totalPages": 1,
         "closeable": false,
         "afterClose": undefined,
+        "clickable": false,
+        "afterRowClick": undefined,
         init: function() {
             var datatable = this;
 
-            this.scrubData();
+            this.data = this.scrubData(this.data);
             this.masterData = this.data.slice();
+
             this.$el.append(this.generateDatatableTemplate());
             if(!this.currentPageSize) {
                 this.currentPageSize = this.pageSizes[0];
@@ -126,7 +130,11 @@
 
             this.updateTable();
         },
+        openTable: function() {
+            this.$el.show();
+        },
         addData: function(newData) {
+            newData = this.scrubData(newData);
             $.merge(this.data, newData);
             $.merge(this.masterData, newData);
             this.filter(this.searchBy);
@@ -155,16 +163,24 @@
             this.updatePageSelect();
             this.updateTable();
         },
-        scrubData: function() {
-            var datatable = this;
-            $.each(datatable.data, function(i, feature){
+        scrubData: function(data) {
+            var datatable = this,
+                newData = [];
+            $.each(data, function(i, feature){
                 $.each(datatable.columns, function(index, value){
                     if(feature[value] === null || feature[value] === undefined) {
                         // Scrubbing data to clean null and undefined values
                         feature[value] = '';
                     }
                 });
+                var record = {
+                    "id": datatable.recordIdCounter.toString(),
+                    "record": feature
+                };
+                newData.push(record);
+                datatable.recordIdCounter ++;
             });
+            return newData;
         },
         updateTable: function() {
             var i,
@@ -200,14 +216,22 @@
             $.each(this.data.slice(this.startFeature, this.endFeature), function(i, feature){
                 var bodyRowHtml = '';
                 $.each(datatable.columns, function(index, value){
-                    if((i%2) !== 0) {
-                        bodyRowHtml += '<td class="cellDiv oddRow"><span>'+feature[value]+'</span></td>';
-                    } else {
-                        bodyRowHtml += '<td class="cellDiv evenRow"><span>'+feature[value]+'</span></td>';
-                    }
+                    bodyRowHtml += '<td class="cellDiv"><span>'+feature.record[value]+'</span></td>';
                 });
-                $('.bodyTable table').append('<tr class="rowDiv">'+bodyRowHtml+'</tr>');
+                if((i%2) !== 0) {
+                    $('.bodyTable table').append('<tr class="rowDiv oddRow" record-id="'+feature.id+'">'+bodyRowHtml+'</tr>');
+                } else {
+                    $('.bodyTable table').append('<tr class="rowDiv evenRow" record-id="'+feature.id+'">'+bodyRowHtml+'</tr>');
+                }
             });
+            if(this.clickable) {
+                $('.bodyTable table tr').addClass('clickableRow');
+                $('.bodyTable table tr').on('click', function() {
+                    var recordId = $(this).attr('record-id');
+                    var record = datatable.getRecordById(recordId);
+                    datatable.afterRowClick(record);
+                });
+            }
 
             for(j=0; j<this.columns.length; j++) {
                 currentCellWidth = $('.headTable table').children().eq(0).children().eq(0).children().eq(j).outerWidth();
@@ -449,14 +473,14 @@
                     this.data = $.grep(this.data, function(obj, key) {
                         var val,
                             re;
-                        for(val in obj) { 
-                            if(typeof obj[val] === 'string') { 
+                        for(val in obj.record) { 
+                            if(typeof obj.record[val] === 'string') { 
                                 re = new RegExp(query,"gi"); 
-                                if(obj[val].match(re)) { 
+                                if(obj.record[val].match(re)) { 
                                     return true;
                                 }
-                            } else if(typeof obj[val] === 'number') { 
-                                if(obj[val] === query) {
+                            } else if(typeof obj.record[val] === 'number') { 
+                                if(obj.record[val] === query) {
                                     return true;
                                 }
                             }
@@ -465,6 +489,16 @@
                     });
                 }
             }
+        },
+        getRecordById: function(id) {
+            var record = {};
+            $.each(this.masterData, function(i, feature){
+                if(feature.id.toString() === id.toString()) {
+                    record = feature.record;
+                    return;
+                }
+            });
+            return record;
         }
     };
 
@@ -475,7 +509,7 @@
             property = property.substr(1);
         }
         return function (a,b) {
-            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            var result = (a.record[property] < b.record[property]) ? -1 : (a.record[property] > b.record[property]) ? 1 : 0;
             return result * sortOrder;
         };
     }

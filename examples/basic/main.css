@@ -6,5 +6,11 @@
 #addDataBtn {
 	position: absolute;
 	right:10px;
+	top: 50px;
+}
+
+#openTableBtn {
+	position: absolute;
+	right:10px;
 	top: 10px;
 }

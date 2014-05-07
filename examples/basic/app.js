@@ -32,11 +32,20 @@ function(dataset) {
         "closeable": true,
         "afterClose": function() {
             console.log('Table has closed.');
+        },
+        "clickable": true,
+        "afterRowClick": function(target) {
+            console.log(target);
         }
     });
 
     $('body').append('<button id="addDataBtn">Add Data</button>');
     $('#addDataBtn').on('click', function() {
         myTable.addData(dataset.getNewData());
+    });
+
+    $('body').append('<button id="openTableBtn">Open Table</button>');
+    $('#openTableBtn').on('click', function() {
+        myTable.openTable();
     });
 });
