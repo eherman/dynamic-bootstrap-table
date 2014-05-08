@@ -473,6 +473,7 @@
                     this.data = $.grep(this.data, function(obj, key) {
                         var val,
                             re;
+
                         for(val in obj.record) { 
                             if(typeof obj.record[val] === 'string') { 
                                 re = new RegExp(query,"gi"); 
@@ -480,7 +481,8 @@
                                     return true;
                                 }
                             } else if(typeof obj.record[val] === 'number') { 
-                                if(obj.record[val] === query) {
+                                console.warn(obj.record[val], '=', query);
+                                if(obj.record[val].toString() === query) {
                                     return true;
                                 }
                             }
