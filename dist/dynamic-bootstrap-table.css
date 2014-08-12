@@ -12,9 +12,7 @@ License: MIT
 }
 
 .outerTable {
-    border-top: 1px solid #dddddd;
-    border-left: 1px solid #dddddd;
-    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
     margin: 0 auto;
     background-color: #FFFFFF;
 }
@@ -58,9 +56,10 @@ License: MIT
     display: inline-block;
     text-align: left;
     white-space: nowrap;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    height: 37px;
+    /*word-wrap: break-word;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
 }
 
 .evenRow {
@@ -71,8 +70,44 @@ License: MIT
     background-color: #FFFFFF;
 }
 
+.clickableRow:hover {
+    cursor: default;
+    background-color: #9AC0DE;
+}
+
+/* HEADER STYLES */
+.tableHeader {
+    background-color: #F5F5F5;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    text-align: center;
+    width: 100%;
+    height: 42px;
+    padding-top: 4px;
+}
+
+.searchField {
+    width: 350px;
+    position: absolute;
+    left: 10px;
+}
+
+.searchField .btn-default-text {
+    background-color: #396A92;
+    border-color: #ccc;
+    color: #fff;
+}
+.searchField .btn-default-text:hover {
+    color: #fff;
+    background-color: #848586;
+}
+
+.datagridCloseBtn {
+    margin-right: 6px;
+}
+
 /* FOOTER STYLES */
-#tableFooter {
+.tableFooter {
     background-color: #F5F5F5;;
     width: 100%;
     height: 42px;
@@ -83,32 +118,32 @@ License: MIT
     border-right: 1px solid #dddddd;
 }
 
-#tableFooter .form-control {
+.tableFooter .form-control {
     display: inline-block;
     width: auto;
 }
 
-#leftFooterDiv {
+.leftFooterDiv {
     display: table-cell;
 }
 
-#pageSizeSelector {
+.pageSizeSelector {
     margin-right: 10px;
     margin-top: 4px;
     vertical-align: middle;
     float: right;
 }
-#page-size-select {
+.pageSizeSelector select {
     vertical-align: middle;
     margin-left: 8px;
 }
 
-#centerFooterDiv {
+.centerFooterDiv {
     display: table-cell;
     text-align: center;
 }
 
-#paginator {
+.centerFooterDiv ul {
     margin-top: 4px; 
     margin-bottom: 0;
     list-style-type: disc;
@@ -120,22 +155,22 @@ License: MIT
     vertical-align: center;
 }
 
-#rightFooterDiv {
+.rightFooterDiv {
     display: table-cell;
 }
 
-#pageSelector {
+.pageSelector {
     margin-left: 10px;
     margin-top: 4px;
     display: inline-block;
     float: left;
 }
-#show-page-select {
+.pageSelector select {
     vertical-align: middle;
     margin-left: 8px;
 }
 
-#resultsCountDiv {
+.resultsCountDiv {
     height: 34px;
     margin-left: 10px;
     margin-top: 4px;
