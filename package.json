@@ -2,7 +2,7 @@
   "name": "dynamic-bootstrap-table",
   "title": "Dynamic Bootstrap Table",
   "description": "Dynamic data table using Bootstrap V3",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/eherman/dynamic-bootstrap-table",
   "author": {
     "name": "Eric Herman",
