@@ -231,10 +231,17 @@
             });
             if(this.clickable) {
                 $('.bodyTable table tr').addClass('clickableRow');
-                $('.bodyTable table tr').on('click', function() {
+                $('.bodyTable table tr').on('click', function(event) {
+                    event.preventDefault();
                     var recordId = $(this).attr('record-id');
                     var record = datatable.getRecordById(recordId);
-                    datatable.afterRowClick(record);
+                    datatable.afterRowClick(event, record);
+                });
+                $('.bodyTable table tr').on('contextmenu', function(event) {
+                    event.preventDefault();
+                    var recordId = $(this).attr('record-id');
+                    var record = datatable.getRecordById(recordId);
+                    datatable.afterRowClick(event, record);
                 });
             }
 
