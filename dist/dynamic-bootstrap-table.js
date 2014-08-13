@@ -1,5 +1,5 @@
 /**
-Dynamic Bootstrap Table - 0.1.1
+Dynamic Bootstrap Table - 0.1.2
 https://github.com/eherman/dynamic-bootstrap-table
 Copyright (c) 2014 Eric Herman
 License: MIT
@@ -228,10 +228,17 @@ License: MIT
             });
             if(this.clickable) {
                 $('.bodyTable table tr').addClass('clickableRow');
-                $('.bodyTable table tr').on('click', function() {
+                $('.bodyTable table tr').on('click', function(event) {
+                    event.preventDefault();
                     var recordId = $(this).attr('record-id');
                     var record = datatable.getRecordById(recordId);
-                    datatable.afterRowClick(record);
+                    datatable.afterRowClick(event, record);
+                });
+                $('.bodyTable table tr').on('contextmenu', function(event) {
+                    event.preventDefault();
+                    var recordId = $(this).attr('record-id');
+                    var record = datatable.getRecordById(recordId);
+                    datatable.afterRowClick(event, record);
                 });
             }
 
