@@ -1,7 +1,7 @@
 /* Copyright (c) 2014
  * Licensed under the MIT License.
  *
- * Version: 0.1.0
+ * Version: 0.1.3
  *
  * Requires: jQuery v1.10.2
  *           Bootstrap v3.0.3
@@ -319,14 +319,14 @@
                 });
             }
         },
-        updatePaginator: function() {
+        updatePaginator: function(newPage) {
             var datatable = this;
 
             if(this.pagination) {
                 //PAGINATION
                 var options = {
                     bootstrapMajorVersion: 3,
-                    currentPage: datatable.currentPage,
+                    currentPage: newPage || datatable.currentPage, // can provide newPage to keep an existing pagination spot
                     numberOfPages: datatable.paginatorSize,
                     totalPages: datatable.totalPages,
                     onPageClicked: function(e,originalEvent,type,page){
