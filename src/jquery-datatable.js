@@ -1,7 +1,6 @@
 /* Copyright (c) 2014
  * Licensed under the MIT License.
  *
- * Version: 0.1.3
  *
  * Requires: jQuery v1.10.2
  *           Bootstrap v3.0.3

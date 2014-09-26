@@ -1,5 +1,5 @@
 /**
-Dynamic Bootstrap Table - 0.1.3
+Dynamic Bootstrap Table - 0.1.4
 https://github.com/eherman/dynamic-bootstrap-table
 Copyright (c) 2014 Eric Herman
 License: MIT
@@ -229,7 +229,6 @@ License: MIT
             if(this.clickable) {
                 $('.bodyTable table tr').addClass('clickableRow');
                 $('.bodyTable table tr').on('click', function(event) {
-                    event.preventDefault();
                     var recordId = $(this).attr('record-id');
                     var record = datatable.getRecordById(recordId);
                     datatable.afterRowClick(event, record);
@@ -406,7 +405,7 @@ License: MIT
                     '<div class="searchField input-group">'+
                         '<input type="text" class="form-control" data-placement="bottom" title="Search on field text">'+
                         '<span class="input-group-btn">'+
-                            '<button class="btn btn-default-text" type="button">'+
+                            '<button class="btn btn-primary" type="button">'+
                                 '<span class="glyphicon glyphicon-search"></span>'+
                             '</button>'+
                         '</span>'+
