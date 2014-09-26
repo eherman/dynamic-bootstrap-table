@@ -86,16 +86,6 @@
     left: 10px;
 }
 
-.searchField .btn-default-text {
-    background-color: #396A92;
-    border-color: #ccc;
-    color: #fff;
-}
-.searchField .btn-default-text:hover {
-    color: #fff;
-    background-color: #848586;
-}
-
 .datagridCloseBtn {
     margin-right: 6px;
 }
@@ -172,19 +162,6 @@
     vertical-align: middle;
     float: left;
     line-height: 32px;
-}
-
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    background-color: #396A92;
-    border-color: #396A92;
-}
-
-.pagination > li > a, .pagination > li > span {
-    border: 1px solid #CCCCCC;
-}
-
-a {
-    color: #396A92;
 }
 
 .pagination:hover {

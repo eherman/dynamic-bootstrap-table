@@ -232,7 +232,6 @@
             if(this.clickable) {
                 $('.bodyTable table tr').addClass('clickableRow');
                 $('.bodyTable table tr').on('click', function(event) {
-                    event.preventDefault();
                     var recordId = $(this).attr('record-id');
                     var record = datatable.getRecordById(recordId);
                     datatable.afterRowClick(event, record);
@@ -409,7 +408,7 @@
                     '<div class="searchField input-group">'+
                         '<input type="text" class="form-control" data-placement="bottom" title="Search on field text">'+
                         '<span class="input-group-btn">'+
-                            '<button class="btn btn-default-text" type="button">'+
+                            '<button class="btn btn-primary" type="button">'+
                                 '<span class="glyphicon glyphicon-search"></span>'+
                             '</button>'+
                         '</span>'+
